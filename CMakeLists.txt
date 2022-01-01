@@ -12,6 +12,10 @@ file(GLOB_RECURSE RETROWAVE_BOARD_SOURCES "RetroWaveLib/Board/*.*")
 file(GLOB_RECURSE RETROWAVE_PLATFORM_SOURCES "RetroWaveLib/Platform/*.*")
 file(GLOB_RECURSE RETROWAVE_PROTOCOL_SOURCES "RetroWaveLib/Protocol/*.*")
 
+if(DEFINED RETROWAVE)
+    file(GLOB RETROWAVE_86BOX "RetroWaveLib/RetroWave_86Box.c")
+endif()
+
 add_library(
         RetroWave
 
@@ -20,13 +24,12 @@ add_library(
         ${RETROWAVE_BOARD_SOURCES}
         ${RETROWAVE_PLATFORM_SOURCES}
         ${RETROWAVE_PROTOCOL_SOURCES}
+        ${RETROWAVE_86BOX}
 )
 
 target_include_directories(RetroWave INTERFACE .)
 
-set(RETROWAVE_BUILD_PLAYER -1)
-
-if(${RETROWAVE_BUILD_PLAYER} EQUAL -1)
+if(NOT DEFINED RETROWAVE_BUILD_PLAYER)
     message("-- Note: Building the player by default. This requires additional dependencies. Use -DRETROWAVE_BUILD_PLAYER=0 to disable.")
     set(RETROWAVE_BUILD_PLAYER 1)
 endif()
